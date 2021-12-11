@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:attr="lang=#{lang}">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="#{console.title}"></title>
+  <link rel="stylesheet" href="static/css/console.css"/>
+  <script src="static/js/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript" src="static/js/console.js"></script>
+</head>
+<body>
+<div id="wrap">
+  <div class="header" th:text="#{console.demo}"></div>
+  <div class="main">
+    <div class="content">
+      <div class="plate">
+        <div>
+          <h2 class="title" th:text="#{plate.cluster.status}"></h2>
+          <div class="overview">
+            <div>
+              <div th:text="#{cluster.status.total.nodes}"></div>
+              <div class="item-value" th:text="${consoleAll.clusterStatus.totalNodes}">0</div>
+            </div>
+            <div>
+              <div th:text="#{cluster.status.leader.nodes}"></div>
+              <div class="item-value" th:text="${consoleAll.clusterStatus.leaderNodes}">0</div>
+            </div>
+            <div>
+              <div th:text="#{cluster.status.learner.nodes}"></div>
+              <div class="item-value" th:text="${consoleAll.clusterStatus.learnerNodes}">0</div>
+            </div>
+            <div>
+              <div th:text="#{cluster.status.lost.nodes}"></div>
+              <div class="item-value" th:text="${consoleAll.clusterStatus.lostNodes}">0</div>
+            </div>
+            <div>
+              <div th:text="#{cluster.status.data.sync}"></div>
+              <div class="item-value" id="data-sync">◕</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="plate">
+        <div>
+          <div class="title title-data">
+            <h2 th:text="#{plate.component.management}"></h2>
+            <div class="total">
+              <div th:text="#{component.management.total}"></div>
+              <div>(</div>
+              <div id="component-total" th:text="${consoleAll.componentManagement.total}">0</div>
+              <div>)</div>
+            </div>
+          </div>
+          <div>
+            <div class="operate">
+              <div class="input-key-wrapper operate-border">
+                <input type="text" class="input-key" placeholder="key" id="input-key">
+              </div>
+              <div class="search-wrapper operate-border">
+                <button type="button" class="operate-button" id="search"
+                        th:text="#{component.management.search}"></button>
+              </div>
+              <div class="create-wrapper operate-border">
+                <button type="button" class="operate-button" id="dialog-create"
+                        th:text="#{component.management.create}"></button>
+              </div>
+            </div>
+            <div class="show">
+              <table id="component-table">
+                <tbody>
+                <tr>
+                  <th th:text="#{component.management.key}"></th>
+                  <th th:text="#{component.management.result}"></th>
+                  <th th:text="#{component.management.create.time}"></th>
+                  <th th:text="#{component.management.update.time}"></th>
+                  <th class="text-center fixed-column-width"
+                      th:text="#{component.management.operate}"></th>
+                </tr>
+                <tr>
+                  <td id="search-key"></td>
+                  <td id="search-result"></td>
+                  <td id="search-create-time"></td>
+                  <td id="search-update-time"></td>
+                  <td id="search-operate" class="text-center"></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="plate">
+        <div>
+          <h2 class="title" th:text="#{plate.cluster.details}"></h2>
+          <div>
+            <table id="route-table">
+              <tbody>
+              <tr>
+                <th th:text="#{cluster.details.sid}"></th>
+                <th th:text="#{cluster.details.type}"></th>
+                <th th:text="#{cluster.details.ip}"></th>
+                <th th:text="#{cluster.details.listen.port}"></th>
+                <th th:text="#{cluster.details.ha.port}"></th>
+                <th class="text-center" th:text="#{cluster.details.weight}"></th>
+                <th th:text="#{cluster.details.node.state}"></th>
+                <th th:text="#{cluster.details.last.update.timestamp}"></th>
+                <th class="text-center" th:text="#{cluster.details.block.file}"></th>
+                <th class="text-center" th:text="#{cluster.details.operate}"></th>
+              </tr>
+              <tr th:each="routes : ${consoleAll.routeList}">
+                <td th:text="${routes.sid}"></td>
+                <td th:text="${routes.type}"></td>
+                <td th:text="${routes.ip}"></td>
+                <td th:text="${routes.listenPort}"></td>
+                <td th:text="${routes.haPort}"></td>
+                <td class="text-center">
+                  <span class="dialog-weight" th:text="${routes.weight}"></span>
+                </td>
+                <td th:switch="${routes.nodeState}">
+                  <div th:case="0" th:text="#{cluster.details.node.state.normal}"></div>
+                  <div th:case="1" th:text="#{cluster.details.node.state.kicked.out}"></div>
+                  <div th:case="2" th:text="#{cluster.details.node.state.lost}"></div>
+                  <div th:case="*" th:text="#{cluster.details.node.state.unknow}"></div>
+                </td>
+                <td th:text="${routes.lastUpdateTimestamp}"></td>
+                <td class="text-center">
+                  <span class="block-detail" th:text="#{cluster.details.block.details}"></span>
+                </td>
+                <td class="text-center" th:switch="${routes.nodeState}">
+                  <span th:case="0" class="dialog-kick-out"
+                        th:text="#{cluster.details.node.kick.out}"></span>
+                  <span th:case="1" class="ban-remove"
+                        th:text="#{cluster.details.node.remove}"></span>
+                  <span th:case="2" class="dialog-kick-out"
+                        th:text="#{cluster.details.node.kick.out}"></span>
+                  <div th:case="*">-</div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dialog" style="display: none;" id="dialog-component-create">
+    <div class="dialog-inner">
+      <div class="dialog-main">
+        <div class="dialog-header">
+          <div class="dialog-title" th:text="#{dialog.component.create.title}"></div>
+          <div class="dialog-close">×</div>
+        </div>
+        <div>
+          <div class="radio-list">
+            <label class="radio-label" for="cr">CR</label>
+            <input type="radio" name="component-type" class="radio-align" id="cr" value="1"
+                   checked="checked"/>
+            <label class="radio-label" for="ns">NS</label>
+            <input type="radio" name="component-type" class="radio-align" id="ns" value="2"/>
+          </div>
+          <div id="cr-component" class="input-list">
+            <div class="fixed-input-space">
+              <label class="input-label" for="create-component-cr-key"
+                     th:text="#{dialog.component.key}"></label>
+              <input type="text" class="input-unit operate-border" id="create-component-cr-key">
+            </div>
+            <div class="fixed-input-space">
+              <label class="input-label" for="create-component-expression"
+                     th:text="#{dialog.component.expression}"></label>
+              <input type="text" class="input-unit operate-border" id="create-component-expression">
+            </div>
+          </div>
+          <div id="ns-component" class="input-list" style="display: none;">
+            <div class="fixed-input-space">
+              <label class="input-label" for="create-component-ns-key"
+                     th:text="#{dialog.component.key}"></label>
+              <input type="text" class="input-unit operate-border" id="create-component-ns-key">
+            </div>
+            <div class="fixed-input-space">
+              <label class="input-label" for="create-component-init-number"
+                     th:text="#{dialog.component.init.number}"></label>
+              <input type="text" class="input-unit operate-border"
+                     id="create-component-init-number">
+            </div>
+            <div class="fixed-input-space">
+              <label class="input-label" for="create-component-step-size"
+                     th:text="#{dialog.component.step.size}"></label>
+              <input type="text" class="input-unit operate-border" id="create-component-step-size">
+            </div>
+            <div class="fixed-input-space">
+              <label class="input-label" for="create-component-reset-type"
+                     th:text="#{dialog.component.reset.type}"></label>
+              <select class="input-unit operate-border" id="create-component-reset-type">
+                <option value="0" th:text="#{dialog.component.reset.no}"></option>
+                <option value="1" th:text="#{dialog.component.reset.day}"></option>
+                <option value="2" th:text="#{dialog.component.reset.month}"></option>
+                <option value="3" th:text="#{dialog.component.reset.year}"></option>
+              </select>
+            </div>
+          </div>
+          <div class="commit">
+            <button type="button" class="dialog-button" id="component-create"
+                    th:text="#{dialog.commit}"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dialog" style="display: none;" id="dialog-component-update">
+    <div class="dialog-inner">
+      <div class="dialog-main">
+        <div class="dialog-header">
+          <div class="dialog-title" th:text="#{dialog.component.update.title}"></div>
+          <div class="dialog-close">×</div>
+        </div>
+        <div>
+          <div class="input-list">
+            <div class="fixed-input-space">
+              <label class="input-label" for="update-component-ns-key"
+                     th:text="#{dialog.component.key}"></label>
+              <input type="text" class="input-unit operate-border" id="update-component-ns-key"
+                     readonly="readonly" style="background-color: #dcdcdc;">
+            </div>
+            <div class="fixed-input-space">
+              <label class="input-label" for="update-component-init-number"
+                     th:text="#{dialog.component.init.number}"></label>
+              <input type="text" class="input-unit operate-border"
+                     id="update-component-init-number">
+            </div>
+            <div class="fixed-input-space">
+              <label class="input-label" for="update-component-step-size"
+                     th:text="#{dialog.component.step.size}"></label>
+              <input type="text" class="input-unit  operate-border" id="update-component-step-size">
+            </div>
+            <div class="fixed-input-space">
+              <label class="input-label" for="update-component-reset-type"
+                     th:text="#{dialog.component.reset.type}"></label>
+              <select class="input-unit operate-border" id="update-component-reset-type">
+                <option value="0" th:text="#{dialog.component.reset.no}"></option>
+                <option value="1" th:text="#{dialog.component.reset.day}"></option>
+                <option value="2" th:text="#{dialog.component.reset.month}"></option>
+                <option value="3" th:text="#{dialog.component.reset.year}"></option>
+              </select>
+            </div>
+          </div>
+          <div class="commit">
+            <button type="button" class="dialog-button" id="component-update"
+                    th:text="#{dialog.commit}"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dialog" style="display: none;" id="dialog-weight-update">
+    <div class="dialog-inner">
+      <div class="dialog-main">
+        <div class="dialog-header">
+          <div class="dialog-title" th:text="#{dialog.weight.update.title}"></div>
+          <div class="dialog-close">×</div>
+        </div>
+        <div>
+          <div class="input-list">
+            <div class="fixed-input-space">
+              <label class="input-label" for="update-weight-sid"
+                     th:text="#{cluster.details.sid}"></label>
+              <input type="text" class="input-unit operate-border" id="update-weight-sid"
+                     readonly="readonly"
+                     style="background-color: #dcdcdc;">
+            </div>
+            <div class="fixed-input-space">
+              <label class="input-label" for="update-weight-value"
+                     th:text="#{cluster.details.weight}"></label>
+              <input type="text" class="input-unit operate-border" id="update-weight-value">
+            </div>
+            <div class="fixed-input-space">
+              <input type="hidden" class="input-unit operate-border" id="update-weight-row">
+            </div>
+          </div>
+          <div class="commit">
+            <button type="button" class="dialog-button" id="weight-update"
+                    th:text="#{dialog.commit}"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dialog" style="display: none;" id="dialog-block-detail">
+    <div class="dialog-inner">
+      <div class="dialog-main">
+        <div class="dialog-header">
+          <div class="dialog-title" th:text="#{dialog.block.detail.title}"></div>
+          <div class="dialog-close">×</div>
+        </div>
+        <div class="block-list">
+          <table>
+            <tbody>
+            <tr>
+              <th th:text="#{dialog.block.detail.block.index}"></th>
+              <th th:text="#{dialog.block.detail.component.count}"></th>
+              <th th:text="#{dialog.block.detail.begin.offset}"></th>
+              <th th:text="#{dialog.block.detail.end.offset}"></th>
+              <th th:text="#{dialog.block.detail.begin.timestamp}"></th>
+              <th th:text="#{dialog.block.detail.end.timestamp}"></th>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dialog" style="display: none;" id="dialog-node-kick-out">
+    <div class="dialog-inner">
+      <div class="dialog-main">
+        <div class="dialog-header">
+          <div class="dialog-title" th:text="#{dialog.node.kick.out.title}"></div>
+          <div class="dialog-close">×</div>
+        </div>
+        <div>
+          <p class="description"><span
+              class="desc-text" th:text="#{dialog.node.kick.out.text1}"></span><span
+              class="desc-text" id="kick-out-sid"></span><span class="desc-text"
+                                                               th:text="#{dialog.node.kick.out.text2}"></span>
+          </p>
+          <div class="fixed-input-space">
+            <input type="hidden" class="input-unit operate-border" id="kick-out-row">
+          </div>
+          <div class="answer">
+            <button type="button" class="dialog-button" id="kick-out"
+                    th:text="#{dialog.yes}"></button>
+            <button type="button" class="dialog-button dialog-close"
+                    th:text="#{dialog.no}"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dialog" style="display: none;" id="dialog-node-remove">
+    <div class="dialog-inner">
+      <div class="dialog-main">
+        <div class="dialog-header">
+          <div class="dialog-title" th:text="#{dialog.node.remove.title}"></div>
+          <div class="dialog-close">×</div>
+        </div>
+        <div>
+          <p class="description"><span class="desc-text"
+                                       th:text="#{dialog.node.remove.text1}"></span><span
+              class="desc-text"
+              id="remove-sid"></span><span
+              class="desc-text" th:text="#{dialog.node.remove.text2}"></span>
+          </p>
+          <div class="fixed-input-space">
+            <input type="hidden" class="input-unit operate-border" id="remove-row">
+          </div>
+          <div class="answer">
+            <button type="button" class="dialog-button" id="remove"
+                    th:text="#{dialog.yes}"></button>
+            <button type="button" class="dialog-button dialog-close"
+                    th:text="#{dialog.no}"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script th:inline="javascript">
+  $(function () {
+    var consoleData = [[${consoleAll}]];
+    if (consoleData.clusterStatus.syncData == true) {
+      $('#data-sync').addClass("safely");
+    } else {
+      $('#data-sync').addClass("unsafely");
+    }
+
+    var kickedOut = [[#{cluster.details.node.state.kicked.out}]];
+    $('#route-table tr:gt(0)').each(function () {
+      var tdArray = $(this).children();
+
+      if ('Leader' == tdArray.eq(1).text()) {
+        tdArray.eq(9).empty();
+        tdArray.eq(9).text('-');
+      }
+
+      var nodeState = tdArray.eq(6).find('div').text();
+      if (nodeState == kickedOut) {
+        var timeout = 120 * 1000;
+        var lastUpdateTimestamp = new Date(tdArray.eq(7).text()).getTime();
+        if (new Date().getTime() > timeout + lastUpdateTimestamp) {
+          var span = tdArray.eq(9).find('span');
+          span.removeClass('ban-remove');
+          span.addClass('dialog-remove');
+        }
+      }
+    });
+  });
+</script>
+</body>
+</html>

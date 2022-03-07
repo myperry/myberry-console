@@ -38,10 +38,7 @@ $(function () {
         jsonResponse['resetType'] = data.resetType;
 
         tdArray.eq(1).text(JSON.stringify(jsonResponse));
-        tdArray.eq(4).append(
-            '<span class="dialog-component-update">' +
-            ($('html').attr('lang') == 'zh' ? '更新' : 'Update')
-            + '</span>');
+        tdArray.eq(4).text('-');
       }
     });
   });
@@ -139,78 +136,7 @@ $(function () {
       $('#component-total').text(data.total);
     });
   });
-  /**component create-->*/
-
-  /**component update-->*/
-  $('#component-table').on('click', '.dialog-component-update', function () {
-    var tdArray = $(this).closest('tr').children();
-    $('#update-component-ns-key').val(tdArray.eq(0).text());
-    var jsonObj = JSON.parse(tdArray.eq(1).text());
-    $('#update-component-init-number').val(jsonObj.initNumber);
-    $('#update-component-step-size').val(jsonObj.stepSize);
-    $('#update-component-reset-type').val(jsonObj.resetType);
-
-    $('#dialog-component-update').css('display', '');
-  });
-
-  $('#component-update').click(function () {
-    var key = $('#update-component-ns-key').val().trim();
-    var initNumber = $('#update-component-init-number').val().trim();
-    var stepSize = $('#update-component-step-size').val().trim();
-    var resetType = $('#update-component-reset-type').val().trim();
-
-    if (!checkString(key)) {
-      alert("key is empty");
-      return;
-    }
-
-    if (!checkNaturalInt(initNumber)) {
-      alert("initNumber must be an integer greater than or equal to 0");
-      return;
-    }
-
-    if (!checkPositiveInt(stepSize)) {
-      alert("stepSize must be an integer greater than 0");
-      return;
-    }
-
-    if (!checkFixedNumber(resetType)) {
-      alert("resetType must be an integer between 0 and 3");
-      return;
-    }
-
-    var jsonRequest = {};
-    jsonRequest['structure'] = 2;
-    jsonRequest['key'] = key;
-    jsonRequest['initNumber'] = initNumber;
-    jsonRequest['stepSize'] = stepSize;
-    jsonRequest['resetType'] = resetType;
-
-    request('/component/update', jsonRequest, function (data) {
-      $('#dialog-component-update').css('display', 'none');
-
-      var tr = $('#component-table tr:eq(1)');
-      var tdArray = tr.children();
-      tdArray.each(function () {
-        $(this).empty();
-      });
-
-      var jsonResponse = {};
-      jsonResponse['initNumber'] = data.initNumber;
-      jsonResponse['stepSize'] = data.stepSize;
-      jsonResponse['resetType'] = data.resetType;
-
-      tdArray.eq(0).text(data.key);
-      tdArray.eq(1).text(JSON.stringify(jsonResponse));
-      tdArray.eq(2).text(data.createTime);
-      tdArray.eq(3).text(data.updateTime);
-      tdArray.eq(4).append(
-          '<span class="dialog-component-update">' +
-          ($('html').attr('lang') == 'zh' ? '更新' : 'Update')
-          + '</span>');
-    });
-  });
-  /**component update-->*/
+  /**<--component create*/
 
   /**weight update-->*/
   $('.dialog-weight').click(function () {

@@ -50,8 +50,6 @@ public interface PreviewService {
 
   ComponentManagementVO componentCreate(ComponentVO componentReq) throws Exception;
 
-  ComponentVO componentUpdate(ComponentVO componentReq) throws Exception;
-
   WeightVO weightUpdate(WeightVO weightReq) throws Exception;
 
   List<BlockVO> blockQuery(int sid) throws Exception;

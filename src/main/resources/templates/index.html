@@ -205,51 +205,6 @@
       </div>
     </div>
   </div>
-  <div class="dialog" style="display: none;" id="dialog-component-update">
-    <div class="dialog-inner">
-      <div class="dialog-main">
-        <div class="dialog-header">
-          <div class="dialog-title" th:text="#{dialog.component.update.title}"></div>
-          <div class="dialog-close">×</div>
-        </div>
-        <div>
-          <div class="input-list">
-            <div class="fixed-input-space">
-              <label class="input-label" for="update-component-ns-key"
-                     th:text="#{dialog.component.key}"></label>
-              <input type="text" class="input-unit operate-border" id="update-component-ns-key"
-                     readonly="readonly" style="background-color: #dcdcdc;">
-            </div>
-            <div class="fixed-input-space">
-              <label class="input-label" for="update-component-init-number"
-                     th:text="#{dialog.component.init.number}"></label>
-              <input type="text" class="input-unit operate-border"
-                     id="update-component-init-number">
-            </div>
-            <div class="fixed-input-space">
-              <label class="input-label" for="update-component-step-size"
-                     th:text="#{dialog.component.step.size}"></label>
-              <input type="text" class="input-unit  operate-border" id="update-component-step-size">
-            </div>
-            <div class="fixed-input-space">
-              <label class="input-label" for="update-component-reset-type"
-                     th:text="#{dialog.component.reset.type}"></label>
-              <select class="input-unit operate-border" id="update-component-reset-type">
-                <option value="0" th:text="#{dialog.component.reset.no}"></option>
-                <option value="1" th:text="#{dialog.component.reset.day}"></option>
-                <option value="2" th:text="#{dialog.component.reset.month}"></option>
-                <option value="3" th:text="#{dialog.component.reset.year}"></option>
-              </select>
-            </div>
-          </div>
-          <div class="commit">
-            <button type="button" class="dialog-button" id="component-update"
-                    th:text="#{dialog.commit}"></button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
   <div class="dialog" style="display: none;" id="dialog-weight-update">
     <div class="dialog-inner">
       <div class="dialog-main">

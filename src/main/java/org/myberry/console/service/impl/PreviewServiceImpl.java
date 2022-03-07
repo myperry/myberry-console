@@ -126,22 +126,6 @@ public class PreviewServiceImpl implements PreviewService {
   }
 
   @Override
-  public ComponentVO componentUpdate(ComponentVO componentReq) throws Exception {
-    NSComponentData nscd = (NSComponentData) buildComponent(componentReq);
-    SendResult sendResult = defaultAdminClient.updateComponent(nscd);
-    if (SendStatus.SEND_OK == sendResult.getSendStatus()) {
-      return queryComponentByKey(componentReq.getKey());
-    } else if (SendStatus.KEY_NOT_EXISTED == sendResult.getSendStatus()) {
-      throw new CalloutException(String.format("Key: [%s] not existed", componentReq.getKey()));
-    } else if (SendStatus.UNKNOWN_STRUCTURE == sendResult.getSendStatus()) {
-      throw new CalloutException(
-          String.format("Unknown structure [%d]", componentReq.getStructure()));
-    } else {
-      throw new CalloutException(String.format("Unknown status [%s]", sendResult.getSendStatus()));
-    }
-  }
-
-  @Override
   public WeightVO weightUpdate(WeightVO weightReq) throws Exception {
     SendResult sendResult =
         defaultAdminClient.updateWeight(weightReq.getSid(), weightReq.getWeight());

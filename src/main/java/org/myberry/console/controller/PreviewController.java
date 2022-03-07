@@ -82,13 +82,6 @@ public class PreviewController {
     return previewService.componentCreate(componentReq);
   }
 
-  @PostMapping("/component/update")
-  @ResponseBody
-  @ResponseData
-  public Object componentUpdate(@RequestBody ComponentVO componentReq) throws Exception {
-    return previewService.componentUpdate(componentReq);
-  }
-
   @PostMapping("/weight/update")
   @ResponseBody
   @ResponseData

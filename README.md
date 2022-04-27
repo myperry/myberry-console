@@ -8,7 +8,7 @@ Myberry Console is an example of a visual management tool for [Myberry](https://
 
 ## Building
 
-Supports Java 1.8+
+Supports Java 17
 
 ```bash
 # mvn clean package

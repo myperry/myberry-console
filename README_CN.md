@@ -8,7 +8,7 @@ Myberry 控制台是 [Myberry](https://gitee.com/myberry/myberry) 项目的可�
 
 ## 构建
 
-支持 Java 1.8+
+支持 Java 17
 
 ```bash
 # mvn clean package
